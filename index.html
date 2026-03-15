@@ -7,98 +7,160 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
     <style>
-        :root {
-            --dorado: #c5a059;
-            --oscuro: #1a1a1a;
-            --claro: #f4f4f4;
-            --verde: #2d5a27;
-            --blanco: #ffffff;
-        }
+        :root { --dorado: #c5a059; --oscuro: #1a1a1a; --claro: #f4f4f4; --verde: #2d5a27; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background-color: var(--claro); }
-        
-        header {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1350&q=80');
-            background-size: cover; background-position: center; height: 70vh;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center;
-        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; color: #333; background-color: var(--claro); }
+        header { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1350&q=80'); background-size: cover; background-position: center; height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
         header h1 { font-size: 4rem; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        header p { font-size: 1.5rem; font-style: italic; }
-        
-        .reserva-header { margin-top: 20px; padding: 15px 30px; background: var(--dorado); color: white; border: none; font-size: 1.1rem; cursor: pointer; border-radius: 5px; transition: background 0.3s; }
-        .reserva-header:hover { background: #b08d4a; }
-        
-        nav { background: var(--oscuro); padding: 1rem; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        nav ul { display: flex; justify-content: center; list-style: none; flex-wrap: wrap; }
-        nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; transition: color 0.3s; }
-        nav a:hover { color: var(--dorado); }
-        
+        .reserva-header { margin-top: 20px; padding: 15px 30px; background: var(--dorado); color: white; border: none; font-size: 1.1rem; cursor: pointer; border-radius: 5px; }
+        nav { background: var(--oscuro); padding: 1rem; position: sticky; top: 0; z-index: 1000; text-align: center; }
+        nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; }
         .container { max-width: 1200px; margin: 2rem auto; padding: 0 20px; }
-        .section-title { text-align: center; border-bottom: 3px solid var(--dorado); padding-bottom: 10px; margin-bottom: 30px; font-size: 2rem; color: var(--oscuro); }
+        .section-title { text-align: center; border-bottom: 3px solid var(--dorado); padding-bottom: 10px; margin-bottom: 30px; }
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        
-        .menu-item { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s; }
-        .menu-item:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+        .menu-item { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .menu-item img { width: 100%; height: 200px; object-fit: cover; }
         .menu-info { padding: 20px; }
-        .menu-info h3 { margin: 0 0 10px 0; color: var(--oscuro); }
-        .menu-info p { color: #666; font-size: 0.9rem; }
-        .menu-info .price { display: block; margin-top: 15px; color: var(--dorado); font-weight: bold; font-size: 1.3rem; }
-        .categoria-badge { display: inline-block; padding: 5px 10px; background: var(--verde); color: white; font-size: 0.75rem; border-radius: 15px; margin-bottom: 10px; }
-        
+        .price { display: block; color: var(--dorado); font-weight: bold; font-size: 1.3rem; }
         .info-section { background: var(--oscuro); color: white; padding: 40px 20px; text-align: center; }
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
-        .info-item i { font-size: 2rem; color: var(--dorado); margin-bottom: 15px; }
-        
         .reserva-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; }
         .reserva-modal.active { display: flex; }
-        .reserva-content { background: white; padding: 40px; border-radius: 10px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
-        .reserva-content h2 { text-align: center; margin-bottom: 20px; color: var(--oscuro); }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; }
-        .btn-reservar { width: 100%; padding: 15px; background: var(--dorado); color: white; border: none; font-size: 1.1rem; cursor: pointer; border-radius: 5px; transition: background 0.3s; }
-        .btn-reservar:hover { background: #b08d4a; }
-        
-        footer { background: var(--oscuro); color: white; text-align: center; padding: 2rem 0; margin-top: 50px; }
+        .reserva-content { background: white; padding: 40px; border-radius: 10px; width: 90%; max-width: 500px; }
+        .btn-reservar { width: 100%; padding: 15px; background: var(--dorado); color: white; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
     <header>
         <h1>La Trattoria Moderna</h1>
         <p>Experiencia culinaria de la granja a tu mesa</p>
-        <button class="reserva-header" onclick="abrirReserva()"><i class="fas fa-calendar-alt"></i> Reservar Mesa</button>
+        <button class="reserva-header" onclick="abrirReserva()">Reservar Mesa</button>
     </header>
 
     <nav>
-        <ul>
-            <li><a href="#entradas">Entradas</a></li>
-            <li><a href="#fuertes">Platos Fuertes</a></li>
-            <li><a href="#nosotros">Nosotros</a></li>
-        </ul>
+        <a href="#entradas">Entradas</a>
+        <a href="#fuertes">Platos Fuertes</a>
+        <a href="#bebidas">Bebidas</a>
+        <a href="#nosotros">Nosotros</a>
     </nav>
 
     <div class="container">
         <h2 id="entradas" class="section-title">Nuestras Entradas</h2>
         <div class="menu-grid">
-            <div class="menu-item"><img src="https://images.unsplash.com/photo-1572448862527-d3c904757de6?w=800&q=80" alt="Bruschetta"><div class="menu-info"><span class="categoria-badge">Vegetariano</span><h3>Bruschetta de Tomate</h3><p>Pan artesanal tostado con tomates frescos, albahaca orgánica y aceite de oliva virgen.</p><span class="price">$12.00</span></div></div>
+            <div class="menu-item"><img src="https://images.unsplash.com/photo-1572448862527-d3c904757de6?w=800&q=80" alt="Bruschetta"><div class="menu-info"><h3>Bruschetta de Tomate</h3><p>Pan artesanal, tomates, albahaca.</p><span class="price">$12.00</span></div></div>
+            <div class="menu-item"><img src="https://images.unsplash.com/photo-1541529086526-db283c563270?w=800&q=80" alt="Calamares"><div class="menu-info"><h3>Calamares Crujientes</h3><p>Aros de calamar fritos.</p><span class="price">$15.50</span></div></div>
         </div>
     </div>
 
-    <section id="nosotros" class="info-section">
-        <div class="info-grid">
-            <div class="info-item"><i class="fas fa-clock"></i><h3>Horario</h3><p>Lunes - Domingo<br>12:00 PM - 11:00 PM</p></div>
+      <div class="container">
+        <h2 id="entradas" class="section-title">Nuestras Entradas</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1572448862527-d3c904757de6?w=800&q=80" alt="Bruschetta">
+                <div class="menu-info"><span class="categoria-badge">Vegetariano</span><h3>Bruschetta de Tomate</h3><p>Pan artesanal tostado con tomates frescos, albahaca orgánica y aceite de oliva virgen.</p><span class="price">$12.00</span></div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?w=800&q=80" alt="Calamares">
+                <div class="menu-info"><span class="categoria-badge">Mariscos</span><h3>Calamares Crujientes</h3><p>Aros de calamar fritos con salsa tártara casera.</p><span class="price">$15.50</span></div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1604909052743-94e838986d24?w=800&q=80" alt="Carpaccio">
+                <div class="menu-info"><span class="categoria-badge">Especial</span><h3>Carpaccio de Res</h3><p>Láminas de res con ajo, alcaparras y queso parmesano.</p><span class="price">$18.00</span></div>
+            </div>
         </div>
-    </section>
+
+        <h2 id="fuertes" class="section-title">Platos Fuertes</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1473093226795-af9932fe5856?w=800&q=80" alt="Pasta">
+                <div class="menu-info"><span class="categoria-badge">Pasta</span><h3>Pasta al Pesto Genovese</h3><p>Fettuccine hecho a mano con pesto de piñones y parmesano.</p><span class="price">$22.00</span></div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80" alt="Ribeye">
+                <div class="menu-info"><span class="categoria-badge">Premium</span><h3>Ribeye a la Brasa</h3><p>Corte premium de 400g con vegetales y mantequilla de romero.</p><span class="price">$35.00</span></div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=800&q=80" alt="Salmón">
+                <div class="menu-info"><span class="categoria-badge">Mariscos</span><h3>Salmón a la Plancha</h3><p>Salmón atlántico con reducción de mantequilla y espárragos.</p><span class="price">$28.00</span></div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=800&q=80" alt="Risotto">
+                <div class="menu-info"><span class="categoria-badge">Vegetariano</span><h3>Risotto de Champiñones</h3><p>Arroz arborio con champiñones y trufa negra.</p><span class="price">$20.00</span></div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=800&q=80" alt="Pollo">
+                <div class="menu-info"><span class="categoria-badge">Clásico</span><h3>Pollo alla Milanese</h3><p>Pechuga empanizada italiana con ensalada.</p><span class="price">$19.00</span></div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=800&q=80" alt="Lasaña">
+                <div class="menu-info"><span class="categoria-badge">Especial</span><h3>Lasaña de Carne</h3><p>Capas de pasta con ragú boloñesa y mozzarella.</p><span class="price">$24.00</span></div>
+            </div>
+        </div>
+
+        <h2 id="bebidas" class="section-title">Bebidas</h2>
+        <div class="bebidas-tabs">
+            <button class="bebida-tab active" onclick="filtrarBebidas('todas')">Todas</button>
+            <button class="bebida-tab" onclick="filtrarBebidas('refrescos')">Refrescos</button>
+            <button class="bebida-tab" onclick="filtrarBebidas('cocteles')">Cócteles</button>
+            <button class="bebida-tab" onclick="filtrarBebidas('vinos')">Vinos</button>
+            <button class="bebida-tab" onclick="filtrarBebidas('cafe')">Café</button>
+        </div>
+        <div class="menu-grid" id="bebidas-grid">
+            <div class="menu-item" data-categoria="refrescos">
+                <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&q=80" alt="Limonada">
+                <div class="menu-info"><h3>Limonada Natural</h3><p>Limones frescos con menta.</p><span class="price">$6.00</span></div>
+            </div>
+            <div class="menu-item" data-categoria="cocteles">
+                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80" alt="Mojito">
+                <div class="menu-info"><h3>Mojito Clásico</h3><p>Ron, menta, limón y soda.</p><span class="price">$12.00</span></div>
+            </div>
+            <div class="menu-item" data-categoria="vinos">
+                <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80" alt="Vino">
+                <div class="menu-info"><h3>Vino Tinto (Copa)</h3><p>Selección italiana.</p><span class="price">$8.00</span></div>
+            </div>
+            <div class="menu-item" data-categoria="cocteles">
+                <img src="https://images.unsplash.com/photo-1536935338788-846bb9981813?w=800&q=80" alt="Margarita">
+                <div class="menu-info"><h3>Margarita</h3><p>Tequila, triple sec y limón.</p><span class="price">$11.00</span></div>
+            </div>
+            <div class="menu-item" data-categoria="cafe">
+                <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80" alt="Café">
+                <div class="menu-info"><h3>Espresso Italiano</h3><p>Café doble de granos seleccionados.</p><span class="price">$4.00</span></div>
+            </div>
+            <div class="menu-item" data-categoria="vinos">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="Vino Blanco">
+                <div class="menu-info"><h3>Vino Blanco (Copa)</h3><p>Vino blanco seco italiano.</p><span class="price">$7.00</span></div>
+            </div>
+            <div class="menu-item" data-categoria="cafe">
+                <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&q=80" alt="Cappuccino">
+                <div class="menu-info"><h3>Cappuccino</h3><p>Espresso con leche espumada.</p><span class="price">$5.50</span></div>
+            </div>
+            <div class="menu-item" data-categoria="refrescos">
+                <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800&q=80" alt="Agua">
+                <div class="menu-info"><h3>Agua Mineral</h3><p>Con o sin gas.</p><span class="price">$3.00</span></div>
+            </div>
+        </div>
+
+        <h2 id="postres" class="section-title">Postres</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&q=80" alt="Tiramisú">
+                <div class="menu-info"><h3>Tiramisú Clásico</h3><p>Mascarpone italiano con café espresso.</p><span class="price">$9.00</span></div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=800&q=80" alt="Panna Cotta">
+                <div class="menu-info"><h3>Panna Cotta</h3><p>Crema italiana con frutas del bosque.</p><span class="price">$8.00</span></div>
+            </div>
+            <div class="menu-item">
+                <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&q=80" alt="Gelato">
+                <div class="menu-info"><h3>Helado Artesanal</h3><p>Vainilla, chocolate o fresa.</p><span class="price">$6.00</span></div>
+            </div>
+        </div>
 
     <div class="reserva-modal" id="reservaModal">
         <div class="reserva-content">
             <h2>Reservar Mesa</h2>
             <form id="formReserva" onsubmit="enviarReserva(event)">
-                <div class="form-group"><label>Nombre completo</label><input type="text" id="nombre" required placeholder="Tu nombre"></div>
-                <div class="form-group"><label>Teléfono</label><input type="tel" id="telefono" required placeholder="Tu teléfono"></div>
-                <div class="form-group"><label>Fecha</label><input type="date" id="fecha" required></div>
-                <button type="submit" class="btn-reservar">Confirmar Reserva</button>
+                <input type="text" id="nombre" placeholder="Nombre" required style="width:100%; padding:10px; margin-bottom:10px;">
+                <button type="submit" class="btn-reservar">Confirmar</button>
             </form>
         </div>
     </div>
@@ -107,33 +169,17 @@
 
     <script>
         function abrirReserva() { document.getElementById('reservaModal').classList.add('active'); }
-        function cerrarReserva() { document.getElementById('reservaModal').classList.remove('active'); }
-        function enviarReserva(e) { e.preventDefault(); alert('Reserva confirmada'); cerrarReserva(); }
+        function enviarReserva(e) { e.preventDefault(); alert('Reserva confirmada'); document.getElementById('reservaModal').classList.remove('active'); }
     </script>
 
     <script type="module">
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-
         createChat({
             webhookUrl: 'https://cesar185.app.n8n.cloud/webhook/c9d49151-9532-45a4-872e-841582e6d8eb/chat',
-            webhookConfig: {
-                method: 'POST',
-                headers: {}
-            },
             target: '#n8n-chat',
             mode: 'window',
-            defaultLanguage: 'es',
-            initialMessages: [
-                '¡Hola! 👋',
-                'Me llamo Marco. ¿En qué puedo ayudarte hoy?'
-            ],
-            i18n: {
-                es: {
-                    title: 'Asistente La Trattoria',
-                    subtitle: "Estamos aquí para ayudarte.",
-                    inputPlaceholder: 'Escribe tu pregunta...',
-                },
-            }
+            initialMessages: ['¡Hola! 👋', 'Me llamo Marco. ¿En qué puedo ayudarte hoy?'],
+            i18n: { es: { title: 'Asistente La Trattoria', subtitle: "Estamos aquí para ayudarte.", inputPlaceholder: 'Escribe tu pregunta...' } }
         });
     </script>
 </body>
