@@ -60,21 +60,7 @@
         .btn-reservar { width: 100%; padding: 15px; background: var(--dorado); color: white; border: none; font-size: 1.1rem; cursor: pointer; border-radius: 5px; transition: background 0.3s; }
         .btn-reservar:hover { background: #b08d4a; }
         
-        .bebidas-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
-        .bebida-tab { padding: 10px 25px; background: white; border: 2px solid var(--dorado); border-radius: 25px; cursor: pointer; transition: all 0.3s; font-weight: bold; }
-        .bebida-tab.active, .bebida-tab:hover { background: var(--dorado); color: white; }
-        
         footer { background: var(--oscuro); color: white; text-align: center; padding: 2rem 0; margin-top: 50px; }
-        footer p { margin: 5px 0; }
-        .social-links { margin-top: 20px; }
-        .social-links a { color: white; font-size: 1.5rem; margin: 0 10px; transition: color 0.3s; }
-        .social-links a:hover { color: var(--dorado); }
-        
-        @media (max-width: 768px) {
-            header h1 { font-size: 2.5rem; }
-            nav ul { flex-direction: column; align-items: center; }
-            nav a { margin: 5px 0; }
-        }
     </style>
 </head>
 <body>
@@ -88,8 +74,6 @@
         <ul>
             <li><a href="#entradas">Entradas</a></li>
             <li><a href="#fuertes">Platos Fuertes</a></li>
-            <li><a href="#bebidas">Bebidas</a></li>
-            <li><a href="#postres">Postres</a></li>
             <li><a href="#nosotros">Nosotros</a></li>
         </ul>
     </nav>
@@ -98,23 +82,14 @@
         <h2 id="entradas" class="section-title">Nuestras Entradas</h2>
         <div class="menu-grid">
             <div class="menu-item"><img src="https://images.unsplash.com/photo-1572448862527-d3c904757de6?w=800&q=80" alt="Bruschetta"><div class="menu-info"><span class="categoria-badge">Vegetariano</span><h3>Bruschetta de Tomate</h3><p>Pan artesanal tostado con tomates frescos, albahaca orgánica y aceite de oliva virgen.</p><span class="price">$12.00</span></div></div>
-            <div class="menu-item"><img src="https://images.unsplash.com/photo-1541529086526-db283c563270?w=800&q=80" alt="Calamares"><div class="menu-info"><span class="categoria-badge">Mariscos</span><h3>Calamares Crujientes</h3><p>Aros de calamar fritos con salsa tártara casera.</p><span class="price">$15.50</span></div></div>
-            <div class="menu-item"><img src="https://images.unsplash.com/photo-1604909052743-94e838986d24?w=800&q=80" alt="Carpaccio"><div class="menu-info"><span class="categoria-badge">Especial</span><h3>Carpaccio de Res</h3><p>Láminas de res con ajo, alcaparras y queso parmesano.</p><span class="price">$18.00</span></div></div>
         </div>
-        </div>
+    </div>
 
     <section id="nosotros" class="info-section">
         <div class="info-grid">
             <div class="info-item"><i class="fas fa-clock"></i><h3>Horario</h3><p>Lunes - Domingo<br>12:00 PM - 11:00 PM</p></div>
-            <div class="info-item"><i class="fas fa-map-marker-alt"></i><h3>Ubicación</h3><p>Calle Gourmet #123<br>Centro Histórico</p></div>
-            <div class="info-item"><i class="fas fa-phone"></i><h3>Reservas</h3><p>+52 (555) 123-4567<br>reservas@trattoria.com</p></div>
-            <div class="info-item"><i class="fas fa-wifi"></i><h3>Servicios</h3><p>WiFi Gratis<br>Estacionamiento</p></div>
         </div>
     </section>
-
-    <footer>
-        <p>&copy; 2024 La Trattoria Moderna. Todos los derechos reservados.</p>
-    </footer>
 
     <div class="reserva-modal" id="reservaModal">
         <div class="reserva-content">
@@ -140,18 +115,13 @@
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
         createChat({
-            webhookUrl:https://cesar185.app.n8n.cloud/webhook/c9d49151-9532-45a4-872e-841582e6d8eb/chat,
+            webhookUrl: 'https://cesar185.app.n8n.cloud/webhook/c9d49151-9532-45a4-872e-841582e6d8eb/chat',
             webhookConfig: {
                 method: 'POST',
                 headers: {}
             },
             target: '#n8n-chat',
             mode: 'window',
-            chatInputKey: 'chatInput',
-            chatSessionKey: 'sessionId',
-            loadPreviousSession: true,
-            metadata: {},
-            showWelcomeScreen: false,
             defaultLanguage: 'es',
             initialMessages: [
                 '¡Hola! 👋',
@@ -159,14 +129,11 @@
             ],
             i18n: {
                 es: {
-                    title: '¡Hola! 👋',
-                    subtitle: "Inicia un chat. Estamos aquí para ayudarte las 24 horas del día, los 7 días de la semana.",
-                    footer: '',
-                    getStarted: 'Nueva conversación',
+                    title: 'Asistente La Trattoria',
+                    subtitle: "Estamos aquí para ayudarte.",
                     inputPlaceholder: 'Escribe tu pregunta...',
                 },
-            },
-            enableStreaming: false,
+            }
         });
     </script>
 </body>
