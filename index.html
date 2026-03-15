@@ -6,7 +6,6 @@
     <title>La Trattoria Moderna | Sabor Auténtico</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-    
     <style>
         :root {
             --dorado: #c5a059;
@@ -14,11 +13,7 @@
             --claro: #f4f4f4;
             --verde: #2d5a27;
             --blanco: #ffffff;
-            /* Variables para personalizar el chat de n8n */
-            --n8n-chat-primary-color: var(--verde);
-            --n8n-chat-button-color: var(--dorado);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background-color: var(--claro); }
         
@@ -47,33 +42,42 @@
         .menu-item img { width: 100%; height: 200px; object-fit: cover; }
         .menu-info { padding: 20px; }
         .menu-info h3 { margin: 0 0 10px 0; color: var(--oscuro); }
+        .menu-info p { color: #666; font-size: 0.9rem; }
         .menu-info .price { display: block; margin-top: 15px; color: var(--dorado); font-weight: bold; font-size: 1.3rem; }
         .categoria-badge { display: inline-block; padding: 5px 10px; background: var(--verde); color: white; font-size: 0.75rem; border-radius: 15px; margin-bottom: 10px; }
-
-        .bebidas-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
-        .bebida-tab { padding: 10px 25px; background: white; border: 2px solid var(--dorado); border-radius: 25px; cursor: pointer; transition: all 0.3s; font-weight: bold; }
-        .bebida-tab.active, .bebida-tab:hover { background: var(--dorado); color: white; }
-
+        
         .info-section { background: var(--oscuro); color: white; padding: 40px 20px; text-align: center; }
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
         .info-item i { font-size: 2rem; color: var(--dorado); margin-bottom: 15px; }
-
+        
         .reserva-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; }
         .reserva-modal.active { display: flex; }
         .reserva-content { background: white; padding: 40px; border-radius: 10px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
-        .form-group { margin-bottom: 20px; text-align: left; }
+        .reserva-content h2 { text-align: center; margin-bottom: 20px; color: var(--oscuro); }
+        .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; }
-        .btn-reservar { width: 100%; padding: 15px; background: var(--dorado); color: white; border: none; font-size: 1.1rem; cursor: pointer; border-radius: 5px; }
-
-        footer { background: var(--oscuro); color: white; text-align: center; padding: 2rem 0; margin-top: 50px; }
-        .social-links a { color: white; font-size: 1.5rem; margin: 0 10px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; }
+        .btn-reservar { width: 100%; padding: 15px; background: var(--dorado); color: white; border: none; font-size: 1.1rem; cursor: pointer; border-radius: 5px; transition: background 0.3s; }
+        .btn-reservar:hover { background: #b08d4a; }
         
-        @media (max-width: 768px) { header h1 { font-size: 2.5rem; } }
+        .bebidas-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+        .bebida-tab { padding: 10px 25px; background: white; border: 2px solid var(--dorado); border-radius: 25px; cursor: pointer; transition: all 0.3s; font-weight: bold; }
+        .bebida-tab.active, .bebida-tab:hover { background: var(--dorado); color: white; }
+        
+        footer { background: var(--oscuro); color: white; text-align: center; padding: 2rem 0; margin-top: 50px; }
+        footer p { margin: 5px 0; }
+        .social-links { margin-top: 20px; }
+        .social-links a { color: white; font-size: 1.5rem; margin: 0 10px; transition: color 0.3s; }
+        .social-links a:hover { color: var(--dorado); }
+        
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            nav ul { flex-direction: column; align-items: center; }
+            nav a { margin: 5px 0; }
+        }
     </style>
 </head>
 <body>
-
     <header>
         <h1>La Trattoria Moderna</h1>
         <p>Experiencia culinaria de la granja a tu mesa</p>
@@ -93,116 +97,76 @@
     <div class="container">
         <h2 id="entradas" class="section-title">Nuestras Entradas</h2>
         <div class="menu-grid">
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1572448862527-d3c904757de6?w=800&q=80" alt="Bruschetta">
-                <div class="menu-info"><span class="categoria-badge">Vegetariano</span><h3>Bruschetta de Tomate</h3><p>Pan artesanal tostado con tomates frescos y albahaca.</p><span class="price">$12.00</span></div>
-            </div>
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1541529086526-db283c563270?w=800&q=80" alt="Calamares">
-                <div class="menu-info"><span class="categoria-badge">Mariscos</span><h3>Calamares Crujientes</h3><p>Aros de calamar fritos con salsa tártara casera.</p><span class="price">$15.50</span></div>
-            </div>
+            <div class="menu-item"><img src="https://images.unsplash.com/photo-1572448862527-d3c904757de6?w=800&q=80" alt="Bruschetta"><div class="menu-info"><span class="categoria-badge">Vegetariano</span><h3>Bruschetta de Tomate</h3><p>Pan artesanal tostado con tomates frescos, albahaca orgánica y aceite de oliva virgen.</p><span class="price">$12.00</span></div></div>
+            <div class="menu-item"><img src="https://images.unsplash.com/photo-1541529086526-db283c563270?w=800&q=80" alt="Calamares"><div class="menu-info"><span class="categoria-badge">Mariscos</span><h3>Calamares Crujientes</h3><p>Aros de calamar fritos con salsa tártara casera.</p><span class="price">$15.50</span></div></div>
+            <div class="menu-item"><img src="https://images.unsplash.com/photo-1604909052743-94e838986d24?w=800&q=80" alt="Carpaccio"><div class="menu-info"><span class="categoria-badge">Especial</span><h3>Carpaccio de Res</h3><p>Láminas de res con ajo, alcaparras y queso parmesano.</p><span class="price">$18.00</span></div></div>
         </div>
-
-        <h2 id="fuertes" class="section-title">Platos Fuertes</h2>
-        <div class="menu-grid">
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80" alt="Ribeye">
-                <div class="menu-info"><span class="categoria-badge">Premium</span><h3>Ribeye a la Brasa</h3><p>Corte premium de 400g con mantequilla de romero.</p><span class="price">$35.00</span></div>
-            </div>
-            <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1473093226795-af9932fe5856?w=800&q=80" alt="Pasta">
-                <div class="menu-info"><span class="categoria-badge">Pasta</span><h3>Pasta al Pesto Genovese</h3><p>Fettuccine hecho a mano con pesto de piñones.</p><span class="price">$22.00</span></div>
-            </div>
         </div>
-
-        <h2 id="bebidas" class="section-title">Bebidas</h2>
-        <div class="bebidas-tabs">
-            <button class="bebida-tab active" onclick="filtrarBebidas('todas', event)">Todas</button>
-            <button class="bebida-tab" onclick="filtrarBebidas('cocteles', event)">Cócteles</button>
-            <button class="bebida-tab" onclick="filtrarBebidas('vinos', event)">Vinos</button>
-            <button class="bebida-tab" onclick="filtrarBebidas('cafe', event)">Café</button>
-        </div>
-        <div class="menu-grid" id="bebidas-grid">
-            <div class="menu-item" data-categoria="cocteles">
-                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800&q=80" alt="Mojito">
-                <div class="menu-info"><h3>Mojito Clásico</h3><p>Ron, menta, limón y soda.</p><span class="price">$12.00</span></div>
-            </div>
-            <div class="menu-item" data-categoria="vinos">
-                <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80" alt="Vino">
-                <div class="menu-info"><h3>Vino Tinto (Copa)</h3><p>Selección italiana de la casa.</p><span class="price">$8.00</span></div>
-            </div>
-        </div>
-    </div>
 
     <section id="nosotros" class="info-section">
         <div class="info-grid">
             <div class="info-item"><i class="fas fa-clock"></i><h3>Horario</h3><p>Lunes - Domingo<br>12:00 PM - 11:00 PM</p></div>
-            <div class="info-item"><i class="fas fa-map-marker-alt"></i><h3>Ubicación</h3><p>Calle Gourmet #123, Centro Histórico</p></div>
+            <div class="info-item"><i class="fas fa-map-marker-alt"></i><h3>Ubicación</h3><p>Calle Gourmet #123<br>Centro Histórico</p></div>
+            <div class="info-item"><i class="fas fa-phone"></i><h3>Reservas</h3><p>+52 (555) 123-4567<br>reservas@trattoria.com</p></div>
+            <div class="info-item"><i class="fas fa-wifi"></i><h3>Servicios</h3><p>WiFi Gratis<br>Estacionamiento</p></div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 La Trattoria Moderna. Todos los derechos reservados.</p>
-        <div class="social-links">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-        </div>
+        <p>&copy; 2024 La Trattoria Moderna. Todos los derechos reservados.</p>
     </footer>
 
     <div class="reserva-modal" id="reservaModal">
         <div class="reserva-content">
-            <h2 style="margin-bottom:20px">Reservar Mesa</h2>
+            <h2>Reservar Mesa</h2>
             <form id="formReserva" onsubmit="enviarReserva(event)">
-                <div class="form-group"><label>Nombre</label><input type="text" id="nombre" required></div>
+                <div class="form-group"><label>Nombre completo</label><input type="text" id="nombre" required placeholder="Tu nombre"></div>
+                <div class="form-group"><label>Teléfono</label><input type="tel" id="telefono" required placeholder="Tu teléfono"></div>
                 <div class="form-group"><label>Fecha</label><input type="date" id="fecha" required></div>
-                <div class="form-group"><label>Personas</label>
-                    <select id="personas" required>
-                        <option value="2">2 personas</option>
-                        <option value="4">4 personas</option>
-                        <option value="6+">Más de 6</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn-reservar">Confirmar</button>
-                <button type="button" onclick="cerrarReserva()" style="background:#666; margin-top:10px" class="btn-reservar">Cerrar</button>
+                <button type="submit" class="btn-reservar">Confirmar Reserva</button>
             </form>
         </div>
     </div>
 
+    <div id="n8n-chat"></div>
+
     <script>
         function abrirReserva() { document.getElementById('reservaModal').classList.add('active'); }
         function cerrarReserva() { document.getElementById('reservaModal').classList.remove('active'); }
-        
-        function enviarReserva(e) {
-            e.preventDefault();
-            alert("¡Reserva solicitada con éxito! Nos vemos pronto.");
-            cerrarReserva();
-        }
-
-        function filtrarBebidas(cat, event) {
-            document.querySelectorAll('#bebidas-grid .menu-item').forEach(item => {
-                item.style.display = (cat === 'todas' || item.dataset.categoria === cat) ? 'block' : 'none';
-            });
-            document.querySelectorAll('.bebida-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-
-        // Cerrar modal al hacer clic fuera
-        window.onclick = function(event) {
-            let modal = document.getElementById('reservaModal');
-            if (event.target == modal) cerrarReserva();
-        }
+        function enviarReserva(e) { e.preventDefault(); alert('Reserva confirmada'); cerrarReserva(); }
     </script>
 
     <script type="module">
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
         createChat({
-            webhookUrl: 'TU_URL_DE_WEBHOOK_AQUI', // REEMPLAZA ESTO
-            title: 'Marco | La Trattoria',
-            subtitle: 'Asistente Virtual',
-            mainColor: '#2d5a27',
-            welcomeMessage: '¡Hola! 🇮🇹 Soy Marco. ¿Te ayudo a reservar o quieres conocer nuestras recomendaciones?',
-            showWelcomeScreen: true,
-            placeholder: 'Escribe tu duda aquí...',
+            webhookUrl: 'TU_WEBHOOK_URL_AQUI',
+            webhookConfig: {
+                method: 'POST',
+                headers: {}
+            },
+            target: '#n8n-chat',
+            mode: 'window',
+            chatInputKey: 'chatInput',
+            chatSessionKey: 'sessionId',
+            loadPreviousSession: true,
+            metadata: {},
+            showWelcomeScreen: false,
+            defaultLanguage: 'es',
+            initialMessages: [
+                '¡Hola! 👋',
+                'Me llamo Nathan. ¿En qué puedo ayudarte hoy?'
+            ],
+            i18n: {
+                es: {
+                    title: '¡Hola! 👋',
+                    subtitle: "Inicia un chat. Estamos aquí para ayudarte las 24 horas del día, los 7 días de la semana.",
+                    footer: '',
+                    getStarted: 'Nueva conversación',
+                    inputPlaceholder: 'Escribe tu pregunta...',
+                },
+            },
+            enableStreaming: false,
         });
     </script>
 </body>
