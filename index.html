@@ -13,97 +13,117 @@
             --oscuro: #1a1a1a;
             --claro: #f4f4f4;
             --verde: #2d5a27;
-            /* Variables de n8n */
+            --blanco: #ffffff;
+            /* Colores para el chat n8n */
             --n8n-chat-primary-color: var(--verde);
             --n8n-chat-button-color: var(--dorado);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; background-color: var(--claro); }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background-color: var(--claro); }
         
-        /* Contenedor del chat */
-        #n8n-chat { position: fixed; bottom: 20px; right: 20px; z-index: 9999; }
-
         header {
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1350&q=80');
-            background-size: cover; background-position: center; height: 60vh;
+            background-size: cover; background-position: center; height: 70vh;
             display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center;
         }
+        header h1 { font-size: 4rem; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        header p { font-size: 1.5rem; font-style: italic; }
+        .reserva-header { margin-top: 20px; padding: 15px 30px; background: var(--dorado); color: white; border: none; font-size: 1.1rem; cursor: pointer; border-radius: 5px; transition: background 0.3s; }
         
-        nav { background: var(--oscuro); padding: 1rem; position: sticky; top: 0; z-index: 999; }
-        nav ul { display: flex; justify-content: center; list-style: none; }
+        nav { background: var(--oscuro); padding: 1rem; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        nav ul { display: flex; justify-content: center; list-style: none; flex-wrap: wrap; }
         nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; }
+        nav a:hover { color: var(--dorado); }
 
-        .container { max-width: 1100px; margin: 2rem auto; padding: 20px; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 20px; }
+        .section-title { text-align: center; border-bottom: 3px solid var(--dorado); padding-bottom: 10px; margin-bottom: 30px; font-size: 2rem; }
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .menu-item { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .menu-info { padding: 20px; }
+        .price { display: block; margin-top: 15px; color: var(--dorado); font-weight: bold; font-size: 1.3rem; }
+        .categoria-badge { display: inline-block; padding: 5px 10px; background: var(--verde); color: white; font-size: 0.75rem; border-radius: 15px; margin-bottom: 10px; }
+
+        .info-section { background: var(--oscuro); color: white; padding: 40px 20px; text-align: center; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .info-item i { font-size: 2rem; color: var(--dorado); margin-bottom: 15px; }
+
+        .reserva-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; }
+        .reserva-modal.active { display: flex; }
+        .reserva-content { background: white; padding: 40px; border-radius: 10px; width: 90%; max-width: 500px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; }
+        .btn-reservar { width: 100%; padding: 15px; background: var(--dorado); color: white; border: none; cursor: pointer; border-radius: 5px; }
         
-        footer { background: var(--oscuro); color: white; text-align: center; padding: 2rem; margin-top: 50px; }
+        footer { background: var(--oscuro); color: white; text-align: center; padding: 2rem 0; margin-top: 50px; }
+        
+        /* Contenedor del Chat n8n */
+        #n8n-chat { position: fixed; bottom: 20px; right: 20px; z-index: 9999; }
     </style>
 </head>
 <body>
-
     <header>
         <h1>La Trattoria Moderna</h1>
         <p>Experiencia culinaria de la granja a tu mesa</p>
+        <button class="reserva-header" onclick="abrirReserva()"><i class="fas fa-calendar-alt"></i> Reservar Mesa</button>
     </header>
 
     <nav>
         <ul>
-            <li><a href="#">Menú</a></li>
-            <li><a href="#">Contacto</a></li>
+            <li><a href="#entradas">Entradas</a></li>
+            <li><a href="#fuertes">Platos Fuertes</a></li>
+            <li><a href="#bebidas">Bebidas</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
         </ul>
     </nav>
 
     <div class="container">
-        <h2 style="text-align:center; margin-bottom:30px;">Nuestro Menú</h2>
+        <h2 id="entradas" class="section-title">Nuestras Entradas</h2>
         <div class="menu-grid">
-            <div class="menu-item">
-                <div class="menu-info"><h3>Bruschetta de Tomate</h3><p>Pan artesanal con tomates frescos.</p></div>
-            </div>
-            <div class="menu-item">
-                <div class="menu-info"><h3>Pasta al Pesto</h3><p>Fettuccine hecho a mano.</p></div>
-            </div>
+            <div class="menu-item"><img src="https://images.unsplash.com/photo-1572448862527-d3c904757de6?w=800&q=80" alt="Bruschetta"><div class="menu-info"><span class="categoria-badge">Vegetariano</span><h3>Bruschetta de Tomate</h3><p>Pan artesanal con tomates frescos.</p><span class="price">$12.00</span></div></div>
+            <div class="menu-item"><img src="https://images.unsplash.com/photo-1541529086526-db283c563270?w=800&q=80" alt="Calamares"><div class="menu-info"><span class="categoria-badge">Mariscos</span><h3>Calamares Crujientes</h3><p>Con salsa tártara casera.</p><span class="price">$15.50</span></div></div>
+        </div>
+    </div>
+
+    <section id="nosotros" class="info-section">
+        <div class="info-grid">
+            <div class="info-item"><i class="fas fa-clock"></i><h3>Horario</h3><p>Lunes - Domingo<br>12:00 PM - 11:00 PM</p></div>
+        </div>
+    </section>
+
+    <div class="reserva-modal" id="reservaModal">
+        <div class="reserva-content">
+            <h2>Reservar Mesa</h2>
+            <form id="formReserva" onsubmit="enviarReserva(event)">
+                <div class="form-group"><label>Nombre</label><input type="text" required></div>
+                <button type="submit" class="btn-reservar">Confirmar</button>
+                <button type="button" onclick="cerrarReserva()" style="margin-top:10px; width:100%; padding:15px; border:none; background:#666; color:white;">Cancelar</button>
+            </form>
         </div>
     </div>
 
     <div id="n8n-chat"></div>
 
-    <footer>
-        <p>&copy; 2026 La Trattoria Moderna</p>
-    </footer>
+    <script>
+        function abrirReserva() { document.getElementById('reservaModal').classList.add('active'); }
+        function cerrarReserva() { document.getElementById('reservaModal').classList.remove('active'); }
+        function enviarReserva(e) { e.preventDefault(); alert("Reserva solicitada"); cerrarReserva(); }
+    </script>
 
     <script type="module">
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
         createChat({
-            webhookUrl: 'REEMPLAZA_ESTO_CON_TU_URL_DE_N8N', 
-            webhookConfig: {
-                method: 'POST',
-                headers: {}
-            },
+            webhookUrl: 'TU_URL_DE_WEBHOOK_AQUI',
             target: '#n8n-chat',
             mode: 'window',
-            chatInputKey: 'chatInput',
-            chatSessionKey: 'sessionId',
-            loadPreviousSession: true,
-            metadata: {},
-            showWelcomeScreen: false,
             defaultLanguage: 'es',
-            initialMessages: [
-                '¡Hola! 👋',
-                'Me llamo Nathan. ¿En qué puedo ayudarte hoy?'
-            ],
+            initialMessages: ['¡Hola! 👋', 'Me llamo Nathan. ¿En qué puedo ayudarte hoy?'],
             i18n: {
                 es: {
                     title: '¡Hola! 👋',
-                    subtitle: "Inicia un chat. Estamos aquí para ayudarte las 24 horas del día.",
-                    footer: '',
-                    getStarted: 'Nueva conversación',
+                    subtitle: "Estamos aquí para ayudarte.",
                     inputPlaceholder: 'Escribe tu pregunta...',
                 },
-            },
-            enableStreaming: false,
+            }
         });
     </script>
 </body>
