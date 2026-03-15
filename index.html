@@ -196,13 +196,35 @@
     <script type="module">
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
         createChat({
-            webhookUrl: 'TU_URL_DE_WEBHOOK_AQUI', // REEMPLAZA ESTO
-            title: 'Marco | La Trattoria',
-            subtitle: 'Asistente Virtual',
-            mainColor: '#2d5a27',
-            welcomeMessage: '¡Hola! 🇮🇹 Soy Marco. ¿Te ayudo a reservar o quieres conocer nuestras recomendaciones?',
-            showWelcomeScreen: true,
-            placeholder: 'Escribe tu duda aquí...',
+           createChat ( { 
+	webhookUrl : '' , 
+	webhookConfig : { 
+		method : 'POST' , 
+		headers : { } 
+	} , 
+	target : '#n8n-chat' , 
+	mode : 'window' , 
+	chatInputKey : 'chatInput' , 
+	chatSessionKey : 'sessionId' , 
+	loadPreviousSession : true , 
+	metadata : { } , 
+	showWelcomeScreen : false , 
+	defaultLanguage : 'en' , 
+	initialMessages : [ 
+		'¡Hola! 👋' , 
+		'Me llamo Marco. ¿En qué puedo ayudarte hoy?' 
+	] , 
+	i18n : { 
+		en : { 
+			title : '¡Hola! 👋' , 
+			subtitle : "Inicia un chat. Estamos aquí para ayudarte las 24 horas del día, los 7 días de la semana." , 
+			footer : '' , 
+			getStarted : 'Nueva conversación' , 
+			inputPlaceholder : 'Escribe tu pregunta...' , 
+		} , 
+	} , 
+	enableStreaming : false , 
+} ) ;
         });
     </script>
 </body>
